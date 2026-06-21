@@ -1,0 +1,1020 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#fb923c">
+    <title>Virasat - Our Heritage</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: white;
+            overflow: hidden;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .app-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .app-content {
+            flex: 1;
+            overflow-y: auto;
+            overflow-x: hidden;
+            padding-bottom: 70px;
+            width: 100%;
+        }
+
+        .app-content::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .app-content::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        .app-content::-webkit-scrollbar-thumb {
+            background: #ccc;
+            border-radius: 3px;
+        }
+
+        /* HEADER */
+        .header {
+            background: linear-gradient(to bottom, #fb923c, #f97316);
+            padding: 24px 16px;
+            text-align: center;
+            color: white;
+            flex-shrink: 0;
+        }
+
+        .header-icon {
+            font-size: 48px;
+            margin-bottom: 8px;
+        }
+
+        .header h1 {
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 4px;
+        }
+
+        .header p {
+            font-size: 13px;
+            opacity: 0.95;
+        }
+
+        /* SECTIONS */
+        .section {
+            padding: 16px;
+            margin-bottom: 0;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: #1f2937;
+        }
+
+        .section-subtitle {
+            font-size: 12px;
+            color: #6b7280;
+            margin-bottom: 12px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+
+        .grid-item {
+            background: white;
+            border: 2px solid #f0f0f0;
+            border-radius: 12px;
+            padding: 12px 8px;
+            text-align: center;
+            cursor: pointer;
+            font-size: 28px;
+            transition: all 0.15s ease;
+            user-select: none;
+            -webkit-user-select: none;
+            touch-action: manipulation;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 90px;
+        }
+
+        .grid-item:active {
+            background: #fef3c7;
+            border-color: #f97316;
+            transform: scale(0.95);
+        }
+
+        .grid-item-name {
+            font-size: 11px;
+            font-weight: 600;
+            color: #374151;
+            margin-top: 6px;
+            word-break: break-word;
+        }
+
+        .orange-section {
+            background: #fed7aa;
+            border-radius: 12px;
+            padding: 16px;
+            margin: 0 16px 12px 16px;
+        }
+
+        .cyan-section {
+            background: #a5f3fc;
+            border-radius: 12px;
+            padding: 16px;
+            margin: 0 16px 12px 16px;
+        }
+
+        /* BOTTOM NAV */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            border-top: 1px solid #e5e7eb;
+            display: flex;
+            justify-content: space-around;
+            height: 70px;
+            z-index: 1000;
+            width: 100%;
+        }
+
+        .nav-btn {
+            background: none;
+            border: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            cursor: pointer;
+            color: #6b7280;
+            flex: 1;
+            transition: color 0.2s;
+            touch-action: manipulation;
+        }
+
+        .nav-btn:active {
+            background: #fef3c7;
+            color: #f97316;
+        }
+
+        .nav-btn.active {
+            color: #f97316;
+        }
+
+        .nav-icon {
+            font-size: 24px;
+        }
+
+        .nav-label {
+            font-size: 10px;
+            font-weight: 600;
+        }
+
+        /* TAB CONTENT */
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* CATEGORY PAGE */
+        .category-header {
+            background: linear-gradient(to bottom, #fb923c, #f97316);
+            padding: 16px;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-shrink: 0;
+        }
+
+        .category-header button {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            font-size: 24px;
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .category-header h2 {
+            flex: 1;
+            font-size: 18px;
+            margin: 0;
+        }
+
+        .category-item-detail {
+            background: white;
+            padding: 14px;
+            margin: 12px 16px;
+            border-radius: 10px;
+            border-left: 4px solid #f97316;
+        }
+
+        .category-item-name {
+            font-size: 16px;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 8px;
+        }
+
+        .category-item-description {
+            font-size: 13px;
+            color: #6b7280;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+
+        .category-item-tag {
+            display: inline-block;
+            background: #fed7aa;
+            color: #92400e;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            margin-right: 6px;
+            margin-bottom: 6px;
+            cursor: pointer;
+        }
+
+        /* POETRY */
+        .poetry-text {
+            background: #f9fafb;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 13px;
+            line-height: 1.8;
+            color: #374151;
+            font-style: italic;
+            margin-bottom: 10px;
+            white-space: pre-wrap;
+        }
+
+        .poetry-translation {
+            background: #fef3c7;
+            padding: 10px;
+            border-radius: 6px;
+            font-size: 12px;
+            color: #6b7280;
+            margin-bottom: 10px;
+            line-height: 1.6;
+        }
+
+        /* POSTS */
+        .post {
+            background: #f9fafb;
+            border-radius: 10px;
+            padding: 14px;
+            margin: 0 16px 12px 16px;
+        }
+
+        .post-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .post-avatar {
+            font-size: 28px;
+            margin-right: 10px;
+        }
+
+        .post-author {
+            font-weight: 600;
+            color: #1f2937;
+            font-size: 14px;
+        }
+
+        .post-content {
+            color: #374151;
+            margin-bottom: 8px;
+            font-size: 13px;
+        }
+
+        .post-actions {
+            display: flex;
+            justify-content: space-around;
+            padding-top: 10px;
+            border-top: 1px solid #e5e7eb;
+            font-size: 12px;
+            color: #4b5563;
+        }
+
+        .post-action-btn {
+            background: none;
+            border: none;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+            padding: 4px 8px;
+            color: inherit;
+            touch-action: manipulation;
+        }
+
+        .post-action-btn:active {
+            transform: scale(0.95);
+        }
+
+        /* CREATE POST */
+        .post-create {
+            padding: 16px;
+        }
+
+        .post-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 16px;
+            color: #1f2937;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 14px;
+            resize: none;
+            margin-bottom: 16px;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #f97316;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            touch-action: manipulation;
+        }
+
+        .btn-primary {
+            background: #f97316;
+            color: white;
+        }
+
+        .btn-primary:active {
+            transform: scale(0.95);
+        }
+
+        .btn-secondary {
+            background: #d1d5db;
+            color: #374151;
+        }
+
+        .btn-secondary:active {
+            transform: scale(0.95);
+        }
+
+        /* MESSAGES & PROFILE */
+        .message-item, .profile-stat {
+            background: #f3f4f6;
+            border: none;
+            border-radius: 10px;
+            padding: 14px;
+            margin: 0 16px 12px 16px;
+            text-align: left;
+            cursor: pointer;
+            touch-action: manipulation;
+        }
+
+        .message-item:active, .profile-stat:active {
+            background: #e5e7eb;
+        }
+
+        .message-name {
+            font-weight: 600;
+            color: #1f2937;
+            font-size: 14px;
+        }
+
+        .message-preview {
+            font-size: 12px;
+            color: #6b7280;
+            margin-top: 4px;
+        }
+
+        .profile-header {
+            background: #fed7aa;
+            border-radius: 12px;
+            padding: 24px 16px;
+            text-align: center;
+            margin: 16px;
+        }
+
+        .profile-icon {
+            font-size: 72px;
+            margin-bottom: 12px;
+        }
+
+        .profile-name {
+            font-size: 20px;
+            font-weight: bold;
+            color: #1f2937;
+        }
+
+        .profile-subtitle {
+            font-size: 12px;
+            color: #6b7280;
+            margin-top: 4px;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: #6b7280;
+        }
+
+        .stat-value {
+            font-size: 28px;
+            font-weight: bold;
+            color: #1f2937;
+            margin-top: 6px;
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <div class="app-content" id="appContent">
+            
+            <!-- HOME TAB -->
+            <div class="tab-content active" id="homeTab">
+                <div class="header">
+                    <div class="header-icon">🏛️</div>
+                    <h1>Virasat</h1>
+                    <p>Our Heritage</p>
+                    <p style="font-size: 12px;">Discover. Learn. Share</p>
+                </div>
+
+                <!-- Folk Arts -->
+                <div class="orange-section">
+                    <div class="section-title">Folk Art & Crafts</div>
+                    <p style="font-size: 12px; color: #6b7280; margin-bottom: 12px;">Tap to explore traditional arts</p>
+                    <div class="grid">
+                        <button class="grid-item" onclick="openCategory('Pottery', event)">🏺<div class="grid-item-name">Pottery</div></button>
+                        <button class="grid-item" onclick="openCategory('Phulkari', event)">🌸<div class="grid-item-name">Phulkari</div></button>
+                        <button class="grid-item" onclick="openCategory('Woodwork', event)">🪵<div class="grid-item-name">Woodwork</div></button>
+                        <button class="grid-item" onclick="openCategory('Jewelry', event)">💎<div class="grid-item-name">Jewelry</div></button>
+                    </div>
+                </div>
+
+                <!-- Recipes -->
+                <div class="orange-section">
+                    <div class="section-title">Local Recipes & Cuisine</div>
+                    <p style="font-size: 12px; color: #6b7280; margin-bottom: 12px;">Tap to explore recipes</p>
+                    <div class="grid">
+                        <button class="grid-item" onclick="openCategory('Nihari', event)">🍲<div class="grid-item-name">Nihari</div></button>
+                        <button class="grid-item" onclick="openCategory('Halwa', event)">🍯<div class="grid-item-name">Halwa</div></button>
+                        <button class="grid-item" onclick="openCategory('Chai', event)">☕<div class="grid-item-name">Chai</div></button>
+                        <button class="grid-item" onclick="openCategory('Cooking', event)">👨‍🍳<div class="grid-item-name">Cooking</div></button>
+                    </div>
+                </div>
+
+                <!-- Folklore -->
+                <div class="cyan-section">
+                    <div class="section-title">Folklore & Stories</div>
+                    <p style="font-size: 12px; color: #6b7280; margin-bottom: 12px;">Tap to discover tales</p>
+                    <div class="grid">
+                        <button class="grid-item" onclick="openCategory('Poetry', event)">✍️<div class="grid-item-name">Poetry</div></button>
+                        <button class="grid-item" onclick="openCategory('Stories', event)">💕<div class="grid-item-name">Stories</div></button>
+                        <button class="grid-item" onclick="openCategory('Books', event)">📚<div class="grid-item-name">Books</div></button>
+                        <button class="grid-item" onclick="openCategory('Tales', event)">📖<div class="grid-item-name">Tales</div></button>
+                        <button class="grid-item" onclick="openCategory('Legends', event)">🌙<div class="grid-item-name">Legends</div></button>
+                    </div>
+                </div>
+
+                <!-- Posts -->
+                <div class="section">
+                    <div class="section-title">Community Feed</div>
+                    <div id="postsContainer"></div>
+                </div>
+            </div>
+
+            <!-- EXPLORE TAB -->
+            <div class="tab-content" id="exploreTab">
+                <div style="padding: 16px;">
+                    <h1 class="post-title">🔍 Explore</h1>
+                </div>
+                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; padding: 0 16px 80px 16px;" id="exploreGrid"></div>
+            </div>
+
+            <!-- POST TAB -->
+            <div class="tab-content" id="postTab">
+                <div class="post-create">
+                    <h2 class="post-title">✍️ Create Post</h2>
+                    <textarea id="postText" placeholder="Share your heritage story..." rows="8"></textarea>
+                    <div class="button-group">
+                        <button class="btn btn-primary" onclick="submitPost()">Post 📤</button>
+                        <button class="btn btn-secondary" onclick="switchTab('homeTab', event)">Cancel</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- MESSAGES TAB -->
+            <div class="tab-content" id="messagesTab">
+                <div style="padding: 16px;">
+                    <h1 class="post-title">💬 Messages</h1>
+                </div>
+                <div id="messagesContainer"></div>
+            </div>
+
+            <!-- PROFILE TAB -->
+            <div class="tab-content" id="profileTab">
+                <div class="profile-header">
+                    <div class="profile-icon">👤</div>
+                    <div class="profile-name">My Profile</div>
+                    <div class="profile-subtitle">Heritage Enthusiast</div>
+                </div>
+                <div id="profileStats"></div>
+            </div>
+
+            <!-- CATEGORY DETAIL TAB -->
+            <div class="tab-content" id="categoryTab">
+                <div class="category-header">
+                    <button onclick="backToHome(event)">← Back</button>
+                    <h2 id="categoryTitle">Learning Folder</h2>
+                </div>
+                <div id="categoryContent"></div>
+            </div>
+
+        </div>
+
+        <!-- BOTTOM NAVIGATION -->
+        <div class="bottom-nav">
+            <button class="nav-btn active" onclick="switchTab('homeTab', event)">
+                <div class="nav-icon">🏠</div>
+                <div class="nav-label">Home</div>
+            </button>
+            <button class="nav-btn" onclick="switchTab('exploreTab', event)">
+                <div class="nav-icon">🔍</div>
+                <div class="nav-label">Explore</div>
+            </button>
+            <button class="nav-btn" onclick="switchTab('postTab', event)">
+                <div class="nav-icon">✏️</div>
+                <div class="nav-label">Post</div>
+            </button>
+            <button class="nav-btn" onclick="switchTab('messagesTab', event)">
+                <div class="nav-icon">💬</div>
+                <div class="nav-label">Messages</div>
+            </button>
+            <button class="nav-btn" onclick="switchTab('profileTab', event)">
+                <div class="nav-icon">👤</div>
+                <div class="nav-label">Profile</div>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        let posts = [
+            { id: 1, author: 'Auntie Fatima', avatar: '👩‍🍳', content: 'Made famous Nihari today! 🍲', likes: 234, comments: 45 },
+            { id: 2, author: 'Rahul Patel', avatar: '🎨', content: 'Finished beautiful Phulkari! 🌸', likes: 567, comments: 89 },
+            { id: 3, author: 'Safal Ahmed', avatar: '☕', content: 'Proper Chai ready! ☕', likes: 342, comments: 56 }
+        ];
+
+        const categoryData = {
+            'Pottery': {
+                icon: '🏺',
+                description: 'Traditional pottery crafted through generations',
+                details: [
+                    { name: 'Hand-thrown Pottery', desc: 'Master craftsmen create beautiful vessels using traditional techniques.' },
+                    { name: 'Glazing Techniques', desc: 'Ancient methods create unique colors and finishes.' },
+                    { name: 'Terracotta Art', desc: 'Beautiful terracotta pieces for decoration and daily use.' }
+                ]
+            },
+            'Phulkari': {
+                icon: '🌸',
+                description: 'Traditional embroidery from Punjab with flower patterns',
+                details: [
+                    { name: 'Threadwork', desc: 'Colorful threads woven into traditional patterns.' },
+                    { name: 'Traditional Designs', desc: 'Each pattern tells a story from heritage.' },
+                    { name: 'Fabric Art', desc: 'Beautiful embroidered fabrics for clothing and home.' }
+                ]
+            },
+            'Woodwork': {
+                icon: '🪵',
+                description: 'Intricate wood carving and furniture traditions',
+                details: [
+                    { name: 'Hand Carving', desc: 'Master artisans carve detailed designs into wood.' },
+                    { name: 'Inlay Work', desc: 'Traditional inlay techniques create beautiful patterns.' },
+                    { name: 'Furniture Design', desc: 'Handcrafted furniture with traditional aesthetics.' }
+                ]
+            },
+            'Jewelry': {
+                icon: '💎',
+                description: 'Traditional jewelry making with precious metals',
+                details: [
+                    { name: 'Silver Jewelry', desc: 'Intricate silver jewelry with traditional designs.' },
+                    { name: 'Gold Work', desc: 'Fine gold jewelry crafted by skilled artisans.' },
+                    { name: 'Stone Setting', desc: 'Precious stones set beautifully in metals.' }
+                ]
+            },
+            'Nihari': {
+                icon: '🍲',
+                description: 'Slow-cooked meat stew, a beloved heritage dish',
+                details: [
+                    { name: 'Recipe', desc: 'Tender meat slow-cooked with aromatic spices for hours.' },
+                    { name: 'Ingredients', desc: 'Beef/goat meat, ginger, garlic, garam masala, and more.' },
+                    { name: 'Serving Style', desc: 'Traditionally served with naan or paratha.' }
+                ]
+            },
+            'Halwa': {
+                icon: '🍯',
+                description: 'Traditional sweet dish made with ghee and flour',
+                details: [
+                    { name: 'Puri Recipe', desc: 'Crispy fried bread served with semolina halwa.' },
+                    { name: 'Preparation', desc: 'Roasted semolina with ghee, milk, and dry fruits.' },
+                    { name: 'Occasions', desc: 'Served at celebrations and special breakfasts.' }
+                ]
+            },
+            'Chai': {
+                icon: '☕',
+                description: 'Traditional spiced tea loved across South Asia',
+                details: [
+                    { name: 'Spiced Tea', desc: 'Black tea brewed with cardamom, cinnamon, cloves.' },
+                    { name: 'Milk Preparation', desc: 'Rich, creamy tea made with milk.' },
+                    { name: 'Street Culture', desc: 'Enjoyed at chai stalls, a beloved tradition.' }
+                ]
+            },
+            'Cooking': {
+                icon: '👨‍🍳',
+                description: 'Traditional cooking methods and heritage recipes',
+                details: [
+                    { name: 'Clay Cooking', desc: 'Traditional clay pot cooking methods.' },
+                    { name: 'Spice Blending', desc: 'Ancient spice combinations for authentic flavors.' },
+                    { name: 'Regional Dishes', desc: 'Diverse recipes from different regions.' }
+                ]
+            },
+            'Poetry': {
+                icon: '✍️',
+                description: 'Traditional poetry celebrating our heritage',
+                details: [
+                    { name: 'Khayal-e-Dil (Thoughts of Heart)', desc: 'English:\nWithout you, life is empty.\nIn memories of you, night is dark.\n\nاردو:\nتیرے بِن یہ جیوِن خالی ہے،\nتیری یادوں میں رات کالی ہے۔\n\nEspañol:\nSin ti, la vida está vacía.\nEn tus recuerdos, la noche es oscura.\n\nFrançais:\nSans toi, la vie est vide.\nDans tes souvenirs, la nuit est sombre.' },
+                    { name: 'Heera-e-Waqt (Jewel of Time)', desc: 'English:\nEvery moment is a story.\nOn heritage soil, we belong.\n\nاردو:\nہر لمحہ ایک کہانی ہے،\nوِراثت کی دھرتی پر بسا ہے اپنا۔\n\nEspañol:\nCada momento es una historia.\nEn la tierra del patrimonio, pertenecemos.\n\nFrançais:\nChaque moment est une histoire.\nSur la terre du patrimoine, nous appartenons.' },
+                    { name: 'Rah-e-Mohabbat (Path of Love)', desc: 'English:\nEveryone walks the path of love.\nSometimes joy, sometimes pain.\n\nاردو:\nپیار کی راہ چلتے ہیں سب لوگ،\nکبھی خوشی تو کبھی رنج۔\n\nEspañol:\nTodos caminan por el camino del amor.\nA veces alegría, a veces dolor.\n\nFrançais:\nTous marchent sur le chemin de l\'amour.\nParfois de la joie, parfois de la peine.' },
+                    { name: 'Mitti-ka-Geet (Song of Earth)', desc: 'English:\nFragrance of earth, swaying breeze.\nCrops flourishing, music plays.\n\nاردو:\nمٹی کی خوشبو، ہوا میں جھومے،\nفصلیں لہلہائیں، گیت سنیں۔\n\nEspañol:\nFragancia de la tierra, brisa mecedora.\nCosechas florecientes, la música suena.\n\nFrançais:\nParfum de la terre, brise ondulante.\nRécoltes florissantes, la musique joue.' }
+                ]
+            },
+            'Stories': {
+                icon: '💕',
+                description: 'Tales of love and romance from folklore',
+                details: [
+                    { name: 'Love Stories', desc: 'Stories of love that transcend time and boundaries.' },
+                    { name: 'Modern Tales', desc: 'Contemporary stories inspired by heritage romance.' },
+                    { name: 'Community Stories', desc: 'Real stories shared by our heritage community.' }
+                ]
+            },
+            'Books': {
+                icon: '📚',
+                description: 'Collection of old manuscripts and literature',
+                details: [
+                    { name: 'Ancient Texts', desc: 'Preserved manuscripts from centuries past.' },
+                    { name: 'Poetry Collections', desc: 'Classical poetry and verses from great poets.' },
+                    { name: 'Historical Records', desc: 'Documents preserving our shared history.' }
+                ]
+            },
+            'Tales': {
+                icon: '📖',
+                description: 'Fairy tales and folk stories for all ages',
+                details: [
+                    { name: 'Children Stories', desc: 'Delightful tales passed to next generation.' },
+                    { name: 'Moral Lessons', desc: 'Stories teaching values and wisdom.' },
+                    { name: 'Adventure Tales', desc: 'Exciting stories of bravery and adventure.' }
+                ]
+            },
+            'Legends': {
+                icon: '🌙',
+                description: 'Mythical stories and legendary figures',
+                details: [
+                    { name: 'Mythical Beings', desc: 'Stories of gods, demons, magical creatures.' },
+                    { name: 'Historical Legends', desc: 'Tales of legendary warriors and rulers.' },
+                    { name: 'Spiritual Wisdom', desc: 'Stories teaching spiritual lessons.' }
+                ]
+            }
+        };
+
+        const items = [
+            { icon: '🏺', name: 'Pottery' },
+            { icon: '🌸', name: 'Phulkari' },
+            { icon: '🪵', name: 'Woodwork' },
+            { icon: '💎', name: 'Jewelry' },
+            { icon: '🍲', name: 'Nihari' },
+            { icon: '🍯', name: 'Halwa' },
+            { icon: '☕', name: 'Chai' },
+            { icon: '👨‍🍳', name: 'Cooking' },
+            { icon: '✍️', name: 'Poetry' },
+            { icon: '💕', name: 'Stories' },
+            { icon: '📚', name: 'Books' },
+            { icon: '📖', name: 'Tales' },
+            { icon: '🌙', name: 'Legends' }
+        ];
+
+        function openCategory(categoryName, event) {
+            event.preventDefault();
+            event.stopPropagation();
+            
+            const data = categoryData[categoryName];
+            if (!data) return;
+
+            // LocalStorage से saved note और image निकालो
+            const savedNote = localStorage.getItem('note_' + categoryName) || '';
+            const savedImage = localStorage.getItem('image_' + categoryName) || '';
+
+            const titleEl = document.getElementById('categoryTitle');
+            const contentEl = document.getElementById('categoryContent');
+
+            titleEl.textContent = `📚 ${categoryName} Folder`;
+
+            let html = `<div style="padding: 16px;">
+                <div style="text-align: center; margin-bottom: 16px; background: white; padding: 16px; border-radius: 10px;">
+                    <div style="font-size: 56px; margin-bottom: 12px;">${data.icon}</div>
+                    <p style="font-size: 16px; color: #1f2937; font-weight: 600; margin-bottom: 4px;">${categoryName}</p>
+                    <p style="font-size: 12px; color: #6b7280;">${data.description}</p>
+                </div>
+
+                <!-- PERSONAL NOTES SECTION -->
+                <div style="background: #fff3cd; padding: 14px; border-radius: 10px; margin-bottom: 16px; border: 2px solid #f97316;">
+                    <div style="font-weight: bold; margin-bottom: 8px; color: #1f2937;">📝 Your Personal Notes:</div>
+                    
+                    <textarea id="noteArea_${categoryName}" 
+                        style="width:100%; height:100px; border:1px solid #f97316; padding:10px; border-radius:8px; font-family: Arial; font-size: 13px; resize: vertical;" 
+                        placeholder="Write your thoughts, experiences, or learning here...">${savedNote}</textarea>
+                    
+                    <!-- IMAGE UPLOAD -->
+                    <div style="margin: 10px 0;">
+                        <label style="display: block; margin-bottom: 6px; font-weight: bold; color: #1f2937; cursor: pointer;">
+                            📷 Add Image:
+                            <input type="file" id="imageInput_${categoryName}" accept="image/*" style="display: none;" onchange="handleImageUpload('${categoryName}')" />
+                        </label>
+                        <button onclick="document.getElementById('imageInput_${categoryName}').click()" style="width: 100%; padding: 8px; background: #f97316; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: bold;">
+                            Choose Image
+                        </button>
+                    </div>
+
+                    <!-- DISPLAY UPLOADED IMAGE -->
+                    ${savedImage ? `<div style="margin: 10px 0; text-align: center;">
+                        <img src="${savedImage}" style="max-width: 100%; max-height: 200px; border-radius: 8px; border: 2px solid #f97316;" />
+                        <button onclick="deleteImage('${categoryName}')" style="width: 100%; margin-top: 8px; padding: 6px; background: #dc3545; color: white; border: none; border-radius: 6px; cursor: pointer;">
+                            ❌ Remove Image
+                        </button>
+                    </div>` : ''}
+
+                    <!-- SAVE AND STATUS -->
+                    <div style="display: flex; gap: 10px; margin-top: 10px;">
+                        <button onclick="saveNote('${categoryName}')" style="flex: 1; padding: 10px; background: #f97316; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: bold;">
+                            ✓ Save Notes
+                        </button>
+                    </div>
+                    <p id="saveStatus_${categoryName}" style="font-size: 12px; color: #f97316; margin-top: 6px; text-align: center;"></p>
+                </div>`;
+
+            html += `<div style="font-weight: bold; margin-bottom: 10px; color: #1f2937;">📚 Information:</div>`;
+
+            data.details.forEach((item, index) => {
+                if (categoryName === 'Poetry') {
+                    const parts = item.desc.split('\n\n');
+                    const verse = parts[0];
+                    const english = parts[1] || '';
+                    
+                    html += `
+                        <div class="category-item-detail">
+                            <div class="category-item-name">📜 ${item.name}</div>
+                            <div class="poetry-text">${verse}</div>
+                            ${english ? `<div class="poetry-translation">${english}</div>` : ''}
+                            <div><span class="category-item-tag">❤️ Love</span><span class="category-item-tag">📤 Share</span></div>
+                        </div>
+                    `;
+                } else {
+                    html += `
+                        <div class="category-item-detail">
+                            <div class="category-item-name">${index + 1}. ${item.name}</div>
+                            <div class="category-item-description">${item.desc}</div>
+                            <div><span class="category-item-tag">🌟 Learn</span><span class="category-item-tag">❤️ Save</span><span class="category-item-tag">📤 Share</span></div>
+                        </div>
+                    `;
+                }
+            });
+
+            html += `</div>`;
+            contentEl.innerHTML = html;
+
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+            document.getElementById('categoryTab').classList.add('active');
+
+            document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+
+            document.getElementById('appContent').scrollTop = 0;
+        }
+
+        // Handle Image Upload
+        function handleImageUpload(categoryName) {
+            const input = document.getElementById('imageInput_' + categoryName);
+            const file = input.files[0];
+            
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    localStorage.setItem('image_' + categoryName, e.target.result);
+                    showStatus(categoryName, '✓ Image uploaded!');
+                    // Refresh the category view
+                    openCategory(categoryName, { preventDefault: () => {}, stopPropagation: () => {} });
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        // Delete Image
+        function deleteImage(categoryName) {
+            localStorage.removeItem('image_' + categoryName);
+            showStatus(categoryName, '✓ Image removed!');
+            openCategory(categoryName, { preventDefault: () => {}, stopPropagation: () => {} });
+        }
+
+        // Save Notes
+        function saveNote(categoryName) {
+            const note = document.getElementById('noteArea_' + categoryName).value;
+            localStorage.setItem('note_' + categoryName, note);
+            showStatus(categoryName, '✓ Notes saved!');
+        }
+
+        // Show Status Message
+        function showStatus(categoryName, message) {
+            const statusEl = document.getElementById('saveStatus_' + categoryName);
+            if (statusEl) {
+                statusEl.innerText = message;
+                setTimeout(() => { 
+                    statusEl.innerText = ''; 
+                }, 2000);
+            }
+        }
+
+        function backToHome(event) {
+            event.preventDefault();
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+            document.getElementById('homeTab').classList.add('active');
+            document.querySelector('.nav-btn').classList.add('active');
+            document.querySelectorAll('.nav-btn').forEach((btn, i) => {
+                if (i > 0) btn.classList.remove('active');
+            });
+            document.getElementById('appContent').scrollTop = 0;
+        }
+
+        function renderPosts() {
+            const container = document.getElementById('postsContainer');
+            container.innerHTML = posts.map(post => `
+                <div class="post">
+                    <div class="post-header">
+                        <div class="post-avatar">${post.avatar}</div>
+                        <div class="post-author">${post.author}</div>
+                    </div>
+                    <div class="post-content">${post.content}</div>
+                    <div class="post-actions">
+                        <button class="post-action-btn" onclick="toggleLike(${post.id}, event)">❤️ ${post.likes}</button>
+                        <button class="post-action-btn">💬 ${post.comments}</button>
+                        <button class="post-action-btn">📤 Share</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function renderExplore() {
+            const grid = document.getElementById('exploreGrid');
+            grid.innerHTML = items.map(item => `
+                <button class="grid-item" onclick="openCategory('${item.name}', event)" style="background: linear-gradient(135deg, #fb923c, #f97316); color: white; flex-direction: column; padding: 20px;">
+                    <div style="font-size: 48px; margin-bottom: 12px;">${item.icon}</div>
+                    <div style="font-weight: 600; font-size: 14px;">${item.name}</div>
+                </button>
+            `).join('');
+        }
+
+        function renderMessages() {
+            const names = ['Auntie Fatima', 'Rahul Patel', 'Safal Ahmed', 'Priya Singh'];
+            document.getElementById('messagesContainer').innerHTML = names.map(name => `
+                <button class="message-item">
+                    <div class="message-name">${name}</div>
+                    <div class="message-preview">Last message...</div>
+                </button>
+            `).join('');
+        }
+
+        function renderProfile() {
+            document.getElementById('profileStats').innerHTML = `
+                <button class="profile-stat">
+                    <div class="stat-label">📝 Posts</div>
+                    <div class="stat-value">${posts.length}</div>
+                </button>
+                <button class="profile-stat">
+                    <div class="stat-label">👥 Followers</div>
+                    <div class="stat-value">456</div>
+                </button>
+                <button class="profile-stat">
+                    <div class="stat-label">🔗 Following</div>
+                    <div class="stat-value">234</div>
+                </button>
+            `;
+        }
+
+        function switchTab(tabId, event) {
+            if (event) {
+                event.preventDefault();
+                event.stopPropagation();
+            }
+            
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+
+            document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+            event?.target?.closest('.nav-btn')?.classList.add('active');
+
+            document.getElementById('appContent').scrollTop = 0;
+        }
+
+        function toggleLike(postId, event) {
+            event.preventDefault();
+            const post = posts.find(p => p.id === postId);
+            if (post) {
+                post.likes += 1;
+                renderPosts();
+            }
+        }
+
+        function submitPost() {
+            const text = document.getElementById('postText').value.trim();
+            if (text) {
+                posts.unshift({
+                    id: posts.length + 1,
+                    author: 'You',
+                    avatar: '👤',
+                    content: text,
+                    likes: 0,
+                    comments: 0
+                });
+                document.getElementById('postText').value = '';
+                renderPosts();
+                renderProfile();
+                switchTab('homeTab');
+            }
+        }
+
+        // Initial render
+        renderPosts();
+        renderExplore();
+        renderMessages();
+        renderProfile();
+
+        // Prevent zoom
+        document.addEventListener('touchmove', function(e) {
+            if (e.scale !== 1) { e.preventDefault(); }
+        }, false);
+    </script>
+</body>
+</html>
